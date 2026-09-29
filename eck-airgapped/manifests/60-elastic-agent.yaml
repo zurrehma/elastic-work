@@ -1,0 +1,31 @@
+# One Fleet-managed agent per node, collecting host and Kubernetes telemetry.
+apiVersion: agent.k8s.elastic.co/v1alpha1
+kind: Agent
+metadata:
+  name: elastic-agent
+  namespace: elastic
+spec:
+  version: 9.5.0
+  mode: fleet
+  policyID: eck-agent
+  kibanaRef:
+    name: kibana
+  fleetServerRef:
+    name: fleet-server
+  daemonSet:
+    podTemplate:
+      spec:
+        serviceAccountName: elastic-agent
+        automountServiceAccountToken: true
+        hostNetwork: true
+        dnsPolicy: ClusterFirstWithHostNet
+        securityContext:
+          runAsUser: 0
+        containers:
+          - name: agent
+            resources:
+              requests:
+                cpu: 100m
+                memory: 400Mi
+              limits:
+                memory: 800Mi

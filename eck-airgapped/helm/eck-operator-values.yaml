@@ -1,0 +1,16 @@
+# Values for the eck-operator chart in an air-gapped cluster.
+# The operator image and every Elastic image it creates are pulled from the internal registry.
+image:
+  repository: registry.internal.example:5000/eck/eck-operator
+
+config:
+  # ECK rewrites docker.elastic.co/<path>:<tag> to <containerRegistry>/<path>:<tag>
+  # for Elasticsearch, Kibana, Elastic Agent and the Package Registry.
+  containerRegistry: registry.internal.example:5000
+
+# No telemetry from a disconnected environment.
+telemetry:
+  disabled: true
+
+# Only watch the namespace the stack runs in.
+managedNamespaces: ["elastic"]

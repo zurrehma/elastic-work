@@ -1,0 +1,22 @@
+# Self-hosted Elastic Package Registry (EPR).
+# In an air-gapped cluster Kibana cannot reach epr.elastic.co, so integrations
+# (System, Windows, Kubernetes, Fleet Server ...) are served from this image,
+# which bundles every package for the given version.
+apiVersion: packageregistry.k8s.elastic.co/v1alpha1
+kind: PackageRegistry
+metadata:
+  name: package-registry
+  namespace: elastic
+spec:
+  version: 9.5.0
+  count: 2
+  podTemplate:
+    spec:
+      containers:
+        - name: package-registry
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              memory: 1Gi

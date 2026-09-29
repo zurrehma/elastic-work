@@ -1,0 +1,61 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: kibana
+  namespace: elastic
+spec:
+  version: 9.5.0
+  count: 2
+  elasticsearchRef:
+    name: elasticsearch
+  # Points Fleet at the in-cluster registry instead of epr.elastic.co.
+  packageRegistryRef:
+    name: package-registry
+  config:
+    # Stops Kibana from trying to reach Elastic's public endpoints.
+    xpack.fleet.isAirGapped: true
+
+    # Agents and Fleet Server must use in-cluster service names, not external URLs.
+    xpack.fleet.agents.elasticsearch.hosts: ["https://elasticsearch-es-http.elastic.svc:9200"]
+    xpack.fleet.agents.fleet_server.hosts: ["https://fleet-server-agent-http.elastic.svc:8220"]
+
+    # Installed from the local registry at startup, so index templates, ingest
+    # pipelines and data streams exist before any agent writes to them.
+    xpack.fleet.packages:
+      - name: system
+        version: latest
+      - name: windows
+        version: latest
+      - name: kubernetes
+        version: latest
+      - name: elastic_agent
+        version: latest
+      - name: fleet_server
+        version: latest
+
+    xpack.fleet.agentPolicies:
+      - name: Fleet Server on ECK
+        id: eck-fleet-server
+        namespace: default
+        is_managed: true
+        monitoring_enabled: ["logs", "metrics"]
+        package_policies:
+          - name: fleet_server-1
+            id: fleet_server-1
+            package:
+              name: fleet_server
+      - name: Elastic Agent on ECK
+        id: eck-agent
+        namespace: default
+        is_managed: true
+        monitoring_enabled: ["logs", "metrics"]
+        unenroll_timeout: 900
+        package_policies:
+          - name: system-1
+            id: system-1
+            package:
+              name: system
+          - name: kubernetes-1
+            id: kubernetes-1
+            package:
+              name: kubernetes
