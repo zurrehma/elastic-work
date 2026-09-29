@@ -1,0 +1,30 @@
+{
+  "index_patterns": ["logs-cisco.asa-*"],
+  "data_stream": {},
+  "priority": 200,
+  "composed_of": ["logs@mappings", "logs@settings", "ecs@mappings"],
+  "template": {
+    "settings": {
+      "index.lifecycle.name": "logs-cisco.asa",
+      "index.number_of_shards": 1,
+      "index.number_of_replicas": 1
+    },
+    "mappings": {
+      "properties": {
+        "cisco": {
+          "properties": {
+            "asa": {
+              "properties": {
+                "connection_id": { "type": "keyword" },
+                "termination_reason": { "type": "keyword" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "_meta": {
+    "description": "Cisco ASA logs parsed to ECS by Logstash; overrides the generic logs-*-* template."
+  }
+}

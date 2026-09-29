@@ -1,0 +1,9 @@
+<166>Sep 29 2026 10:15:32: %ASA-6-302013: Built inbound TCP connection 4523311 for outside:203.0.113.25/51234 (203.0.113.25/51234) to inside:10.10.20.15/443 (198.51.100.10/443)
+<166>Sep 29 2026 10:15:33: %ASA-6-302013: Built outbound TCP connection 4523312 for outside:93.184.216.34/443 (93.184.216.34/443) to inside:10.10.20.31/53122 (198.51.100.10/53122)
+<166>Sep 29 2026 10:15:34: %ASA-6-302015: Built outbound UDP connection 4523313 for outside:8.8.8.8/53 (8.8.8.8/53) to inside:10.10.20.31/60122 (198.51.100.10/60122)
+<164>Sep 29 2026 10:15:35: %ASA-4-106023: Deny tcp src outside:198.51.100.77/44321 dst inside:10.10.20.15/22 by access-group "outside_access_in" [0x0, 0x0]
+<164>Sep 29 2026 10:15:36: %ASA-4-106023: Deny icmp src outside:198.51.100.78 dst inside:10.10.20.15 (type 8, code 0) by access-group "outside_access_in" [0x0, 0x0]
+<166>Sep 29 2026 10:15:37: %ASA-6-302014: Teardown TCP connection 4523311 for outside:203.0.113.25/51234 to inside:10.10.20.15/443 duration 0:01:05 bytes 10234 TCP FINs
+<166>Sep 29 2026 10:15:38: %ASA-6-113004: AAA user authentication Successful : server =  10.10.1.5 : user = jdoe
+<166>Sep 29 2026 10:15:39: %ASA-6-113015: AAA user authentication Rejected : reason = Invalid password : server = 10.10.1.5 : user = admin : user IP = 198.51.100.90
+<165>Sep  9 2026 10:15:40: %ASA-5-111008: User 'admin' executed the 'write memory' command.
